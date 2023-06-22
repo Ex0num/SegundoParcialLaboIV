@@ -121,30 +121,20 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         Log.d("ENTONCES QUEDO LA ORIGINAL STATIC",MainActivity.cryptosAuxList.toString());
         Log.d("ENTONCES QUEDO LA SHOWED 2 ",adapterCryptos.cryptos.toString());
 
-        List<CryptoModel> listaFiltraciones = new ArrayList<>(adapterCryptos.cryptos);
+        List<CryptoModel> listaFiltraciones = new ArrayList<>();
+        listaFiltraciones.clear();
 
-        if (queryRecibida.equals("pepito") == false)
+        for (CryptoModel cryptoActual : MainActivity.cryptosAuxList)
         {
-            listaFiltraciones.clear();
-
-            for (CryptoModel cryptoActual : MainActivity.cryptosAuxList)
+            if(cryptoActual.getNombre().toLowerCase().contains(queryRecibida.toLowerCase()))
             {
-                if(cryptoActual.getNombre().toLowerCase().contains(queryRecibida.toLowerCase()))
-                {
-                    listaFiltraciones.add(cryptoActual);
-                }
+                listaFiltraciones.add(cryptoActual);
             }
+        }
 
-            Log.d("Lista ya filtrada",listaFiltraciones.toString());
-            adapterCryptos.cryptos.clear();
-            adapterCryptos.cryptos.addAll(listaFiltraciones);
-        }
-        else
-        {
-            adapterCryptos.cryptos.clear();
-            adapterCryptos.cryptos.addAll(MainActivity.cryptosAuxList);
-            Log.d("DEBERIA HABER QUEDADO CLEAN",adapterCryptos.cryptos.toString());
-        }
+        Log.d("Lista ya filtrada",listaFiltraciones.toString());
+        adapterCryptos.cryptos.clear();
+        adapterCryptos.cryptos.addAll(listaFiltraciones);
 
         Log.d("Lista ya filtrada showed",adapterCryptos.cryptos.toString());
         adapterCryptos.notifyDataSetChanged();
